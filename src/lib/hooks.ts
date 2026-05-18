@@ -6,8 +6,18 @@ import type { Channel, ChannelDetail, ChannelStats, Post, Snapshot } from "./typ
 
 const fetcher = <T,>(path: string) => apiGet<T>(path);
 
+// Backend wraps list responses as { channels: [...] } / { snapshots: [...] } / { posts: [...] }.
+// Unwrap so consumers get bare arrays.
+const unwrap = async <K extends string, T>(path: string, key: K): Promise<T[]> => {
+  const res = await apiGet<Record<K, T[] | null | undefined>>(path);
+  const arr = res?.[key];
+  return Array.isArray(arr) ? arr : [];
+};
+
 export function useChannels() {
-  return useSWR<Channel[]>("/api/v1/channels", fetcher);
+  return useSWR<Channel[]>("/api/v1/channels", (p: string) =>
+    unwrap<"channels", Channel>(p, "channels"),
+  );
 }
 
 export function useChannel(id: string | null | undefined) {
@@ -28,7 +38,7 @@ export function useSnapshots(
   const q = qs.toString();
   return useSWR<Snapshot[]>(
     id ? `/api/v1/channels/${id}/snapshots${q ? `?${q}` : ""}` : null,
-    fetcher,
+    (p: string) => unwrap<"snapshots", Snapshot>(p, "snapshots"),
   );
 }
 
@@ -42,6 +52,6 @@ export function useStats(id: string | null | undefined) {
 export function usePosts(id: string | null | undefined) {
   return useSWR<Post[]>(
     id ? `/api/v1/channels/${id}/posts` : null,
-    fetcher,
+    (p: string) => unwrap<"posts", Post>(p, "posts"),
   );
 }

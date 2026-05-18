@@ -21,6 +21,7 @@ export interface Snapshot {
   total_likes?: number;
   total_views?: number;
   total_comments?: number;
+  raw?: Record<string, unknown>;
 }
 
 export interface ChannelStats {
@@ -34,6 +35,7 @@ export interface ChannelStats {
   cagr_1y_pct: number;
   velocity_7d: number;
   velocity_28d: number;
+  raw?: Record<string, unknown>;
 }
 
 export interface Post {

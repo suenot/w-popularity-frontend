@@ -13,6 +13,7 @@ import { PLATFORM_COLORS } from "@/lib/platforms";
 import PlatformBadge from "@/components/PlatformBadge";
 import KpiCard from "@/components/KpiCard";
 import GrowthChart from "@/components/GrowthChart";
+import PlatformRawCard from "@/components/PlatformRawCard";
 import { apiDelete } from "@/lib/api";
 import { ArrowLeft, ExternalLink, Loader2, Trash2 } from "lucide-react";
 
@@ -146,6 +147,10 @@ export default function ChannelDetailPage({
         ]}
         metric="followers"
       />
+
+      {stats?.raw && Object.keys(stats.raw).length > 0 && (
+        <PlatformRawCard raw={stats.raw} platform={channel.platform} />
+      )}
 
       <div className="rounded-xl border border-neutral-800 bg-neutral-900/40 overflow-hidden">
         <div className="px-4 py-3 border-b border-neutral-800 text-sm font-semibold text-neutral-300">
