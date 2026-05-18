@@ -14,6 +14,8 @@ import {
   loginRequest,
   registerRequest,
   logoutRequest,
+  requestCodeRequest,
+  verifyCodeRequest,
   getStoredToken,
   decodeJwt,
 } from "./auth";
@@ -35,6 +37,8 @@ interface AuthContextProps {
     password: string,
     username?: string,
   ) => Promise<string | null>;
+  sendCode: (email: string) => Promise<string | null>;
+  verifyCode: (email: string, code: string) => Promise<string | null>;
   logout: () => Promise<void>;
 }
 
@@ -76,6 +80,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const sendCode = useCallback(async (em: string) => {
+    const r = await requestCodeRequest(em);
+    return r.error ?? null;
+  }, []);
+
+  const verifyCode = useCallback(async (em: string, code: string) => {
+    const r = await verifyCodeRequest(em, code);
+    if (r.error) return r.error;
+    if (r.token) setToken(r.token);
+    return null;
+  }, []);
+
   const logout = useCallback(async () => {
     await logoutRequest();
     setToken(null);
@@ -94,6 +110,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ready,
         login,
         register,
+        sendCode,
+        verifyCode,
         logout,
       }}
     >

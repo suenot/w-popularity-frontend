@@ -98,6 +98,48 @@ export async function registerRequest(
   }
 }
 
+export async function requestCodeRequest(
+  email: string,
+): Promise<{ error?: string }> {
+  try {
+    const res = await fetch(`${AUTH_URL}/auth/request-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return { error: data.detail || data.error || "Failed to send code" };
+    }
+    return {};
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
+export async function verifyCodeRequest(
+  email: string,
+  code: string,
+): Promise<{ token?: string; error?: string }> {
+  try {
+    const res = await fetch(`${AUTH_URL}/auth/verify-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return { error: data.detail || data.error || "Invalid code" };
+    }
+    if (data.token) {
+      await persistToken(data.token);
+    }
+    return { token: data.token };
+  } catch {
+    return { error: "Network error" };
+  }
+}
+
 export async function logoutRequest() {
   try {
     await fetch("/api/auth/logout", { method: "POST" });
