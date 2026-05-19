@@ -135,7 +135,100 @@ const FIELDS_BY_PLATFORM: Partial<Record<Platform, Field[]>> = {
     { key: "created_utc", label: "Joined", render: ISO },
     { key: "bio", label: "Bio" },
   ],
+  github: [
+    { key: "name", label: "Display name" },
+    { key: "bio", label: "Bio" },
+    { key: "company", label: "Company" },
+    { key: "location", label: "Location" },
+    { key: "blog", label: "Blog", render: URL_LINK },
+    { key: "twitter_username", label: "Twitter" },
+    { key: "followers", label: "Followers" },
+    { key: "following", label: "Following" },
+    { key: "public_repos", label: "Public repos" },
+    { key: "public_gists", label: "Public gists" },
+    { key: "total_stars", label: "Total stars" },
+    { key: "total_forks", label: "Total forks" },
+    { key: "top_repos_count", label: "Repos with ★≥threshold" },
+    { key: "archived_repo_count", label: "Archived repos" },
+    { key: "forked_repo_count", label: "Forked repos" },
+    { key: "created_at", label: "Joined" },
+    { key: "top_repos", label: "Top repos", render: renderTopRepos },
+    { key: "languages", label: "Languages", render: renderLangHist },
+    { key: "topics_top", label: "Top topics", render: renderTopicsHist },
+  ],
 };
+
+function renderTopRepos(v: unknown): React.ReactNode {
+  const repos = v as Array<{
+    name: string;
+    full_name?: string;
+    url?: string;
+    stars: number;
+    forks: number;
+    language?: string;
+    description?: string;
+  }> | null;
+  if (!repos || repos.length === 0) return "—";
+  return (
+    <ul className="space-y-1.5">
+      {repos.map((r) => (
+        <li key={r.full_name || r.name} className="flex items-baseline gap-2 text-xs">
+          <a
+            href={r.url || `https://github.com/${r.full_name || r.name}`}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-indigo-400 hover:underline"
+          >
+            {r.name}
+          </a>
+          <span className="rounded bg-yellow-500/15 px-1.5 py-0.5 text-yellow-400">
+            ★ {r.stars}
+          </span>
+          {r.forks > 0 && (
+            <span className="rounded bg-neutral-500/15 px-1.5 py-0.5 text-neutral-300">
+              🍴 {r.forks}
+            </span>
+          )}
+          {r.language && (
+            <span className="text-neutral-500">{r.language}</span>
+          )}
+          {r.description && (
+            <span className="text-neutral-400 truncate">— {r.description}</span>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function renderLangHist(v: unknown): React.ReactNode {
+  const hist = v as Record<string, number> | null;
+  if (!hist || Object.keys(hist).length === 0) return "—";
+  const sorted = Object.entries(hist).sort((a, b) => b[1] - a[1]);
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {sorted.map(([lang, n]) => (
+        <span key={lang} className="rounded bg-indigo-500/10 px-1.5 py-0.5 text-xs text-indigo-300">
+          {lang} · {n}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function renderTopicsHist(v: unknown): React.ReactNode {
+  const items = v as Array<{ name: string; count: number }> | null;
+  if (!items || items.length === 0) return "—";
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {items.map((t) => (
+        <span key={t.name} className="rounded bg-emerald-500/10 px-1.5 py-0.5 text-xs text-emerald-300">
+          {t.name} · {t.count}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 function fmtValue(v: unknown): React.ReactNode {
   if (v == null || v === "") return "—";

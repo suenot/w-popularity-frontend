@@ -9,7 +9,8 @@ export type Platform =
   | "stackoverflow"
   | "tbank_pulse"
   | "smartlab"
-  | "reddit";
+  | "reddit"
+  | "github";
 
 export const PLATFORMS: Platform[] = [
   "youtube",
@@ -23,6 +24,7 @@ export const PLATFORMS: Platform[] = [
   "tbank_pulse",
   "smartlab",
   "reddit",
+  "github",
 ];
 
 export const PLATFORM_NAMES: Record<Platform, string> = {
@@ -37,6 +39,7 @@ export const PLATFORM_NAMES: Record<Platform, string> = {
   tbank_pulse: "T-Bank Pulse",
   smartlab: "Smart-Lab",
   reddit: "Reddit",
+  github: "GitHub",
 };
 
 export const PLATFORM_COLORS: Record<Platform, string> = {
@@ -51,6 +54,7 @@ export const PLATFORM_COLORS: Record<Platform, string> = {
   tbank_pulse: "#ffdd2d",
   smartlab: "#1c4e8c",
   reddit: "#ff4500",
+  github: "#181717",
 };
 
 // URL → platform regex map. The first capture group is the handle.
@@ -66,6 +70,7 @@ const PATTERNS: Record<Platform, RegExp> = {
   tbank_pulse: /tbank\.ru\/invest\/social\/profile\/([\w_]+)/i,
   smartlab: /smart-lab\.ru\/my\/([\w_-]+)/i,
   reddit: /reddit\.com\/(?:user|u)\/([\w-]+)/i,
+  github: /github\.com\/([\w][\w-]*[\w]|[\w])(?:\/|$|\?)/i,
 };
 
 export interface DetectedChannel {

@@ -12,6 +12,7 @@ import {
   Wallet,
   LineChart,
   MessageCircle,
+  Github,
 } from "lucide-react";
 
 const ICON_MAP: Record<Platform, React.ComponentType<{ size?: number; color?: string }>> = {
@@ -26,6 +27,7 @@ const ICON_MAP: Record<Platform, React.ComponentType<{ size?: number; color?: st
   tbank_pulse: Wallet,
   smartlab: LineChart,
   reddit: MessageCircle,
+  github: Github,
 };
 
 interface Props {

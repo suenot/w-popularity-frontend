@@ -13,10 +13,10 @@ export default function PlatformBadge({ platform, size = "sm" }: Props) {
       ? "text-xs px-2 py-0.5 gap-1.5"
       : "text-sm px-3 py-1 gap-2";
 
-  // X's brand colour is pure black, which disappears against a dark
-  // background. Use a theme-aware palette via Tailwind utilities instead
-  // of inline `style` — black-on-light, white-on-dark.
-  if (platform === "x") {
+  // X and GitHub brand colours are near-black, which disappears against a
+  // dark app background. Use a theme-aware palette via Tailwind utilities
+  // instead of inline `style` — dark-on-light, light-on-dark.
+  if (platform === "x" || platform === "github") {
     return (
       <span
         className={
