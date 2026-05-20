@@ -121,6 +121,11 @@ const FIELDS_BY_PLATFORM: Partial<Record<Platform, Field[]>> = {
     { key: "currentCompany", label: "Company" },
     { key: "connectionCount", label: "Connections" },
   ],
+  marketmaker_auth: [
+    { key: "metric", label: "Metric" },
+    { key: "source", label: "Source" },
+    { key: "endpoint", label: "Endpoint", render: URL_LINK },
+  ],
   reddit: [
     { key: "name", label: "Username" },
     { key: "total_karma", label: "Total karma" },

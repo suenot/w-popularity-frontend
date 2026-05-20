@@ -10,7 +10,8 @@ export type Platform =
   | "tbank_pulse"
   | "smartlab"
   | "reddit"
-  | "github";
+  | "github"
+  | "marketmaker_auth";
 
 export const PLATFORMS: Platform[] = [
   "youtube",
@@ -25,6 +26,7 @@ export const PLATFORMS: Platform[] = [
   "smartlab",
   "reddit",
   "github",
+  "marketmaker_auth",
 ];
 
 export const PLATFORM_NAMES: Record<Platform, string> = {
@@ -40,6 +42,7 @@ export const PLATFORM_NAMES: Record<Platform, string> = {
   smartlab: "Smart-Lab",
   reddit: "Reddit",
   github: "GitHub",
+  marketmaker_auth: "MarketMaker users",
 };
 
 export const PLATFORM_COLORS: Record<Platform, string> = {
@@ -55,6 +58,7 @@ export const PLATFORM_COLORS: Record<Platform, string> = {
   smartlab: "#1c4e8c",
   reddit: "#ff4500",
   github: "#181717",
+  marketmaker_auth: "#7c3aed",
 };
 
 // URL → platform regex map. The first capture group is the handle.
@@ -71,6 +75,9 @@ const PATTERNS: Record<Platform, RegExp> = {
   smartlab: /smart-lab\.ru\/my\/([\w_-]+)/i,
   reddit: /reddit\.com\/(?:user|u)\/([\w-]+)/i,
   github: /github\.com\/([\w][\w-]*[\w]|[\w])(?:\/|$|\?)/i,
+  // auth.marketmaker.cc is a singleton project metric — match any URL on
+  // that host so the user can paste either bare domain or any sub-path.
+  marketmaker_auth: /auth\.marketmaker\.cc(?:\/(\w*))?/i,
 };
 
 export interface DetectedChannel {

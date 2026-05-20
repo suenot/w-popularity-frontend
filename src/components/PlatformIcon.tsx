@@ -13,6 +13,7 @@ import {
   LineChart,
   MessageCircle,
   Github,
+  ShieldCheck,
 } from "lucide-react";
 
 const ICON_MAP: Record<Platform, React.ComponentType<{ size?: number; color?: string }>> = {
@@ -28,6 +29,7 @@ const ICON_MAP: Record<Platform, React.ComponentType<{ size?: number; color?: st
   smartlab: LineChart,
   reddit: MessageCircle,
   github: Github,
+  marketmaker_auth: ShieldCheck,
 };
 
 interface Props {
