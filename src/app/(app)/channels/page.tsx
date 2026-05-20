@@ -63,6 +63,7 @@ export default function ChannelsPage() {
               <tr>
                 <th className="px-4 py-3 text-left font-medium">Channel</th>
                 <th className="px-4 py-3 text-right font-medium">Followers</th>
+                <th className="px-4 py-3 text-right font-medium">Δ1d</th>
                 <th className="px-4 py-3 text-right font-medium">Δ7d</th>
                 <th className="px-4 py-3 text-right font-medium">Δ30d</th>
                 <th className="px-4 py-3 text-right font-medium">Δ90d</th>
@@ -82,6 +83,9 @@ export default function ChannelsPage() {
                   </td>
                   <td className="px-4 py-3 text-right text-neutral-200">
                     {fmtNum(c.followers)}
+                  </td>
+                  <td className={`px-4 py-3 text-right ${pctColor(c.d1_pct)}`}>
+                    {fmtPct(c.d1_pct)}
                   </td>
                   <td className={`px-4 py-3 text-right ${pctColor(c.d7_pct)}`}>
                     {fmtPct(c.d7_pct)}

@@ -104,6 +104,18 @@ export default function ChannelDetailPage({
         <KpiCard
           label="Followers"
           value={fmtNum(stats?.followers ?? channel.latest?.followers)}
+          deltaPct={stats?.d1_pct ?? null}
+          color={color}
+        />
+        <KpiCard
+          label="Δ 1d"
+          value={stats?.d1_pct != null ? `${stats.d1_pct.toFixed(1)}%` : "—"}
+          deltaPct={stats?.d1_pct ?? null}
+          color={color}
+        />
+        <KpiCard
+          label="Δ 7d"
+          value={stats?.d7_pct != null ? `${stats.d7_pct.toFixed(1)}%` : "—"}
           deltaPct={stats?.d7_pct ?? null}
           color={color}
         />
@@ -113,12 +125,18 @@ export default function ChannelDetailPage({
           deltaPct={stats?.d30_pct ?? null}
           color={color}
         />
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <KpiCard
           label="Δ 90d"
           value={stats?.d90_pct != null ? `${stats.d90_pct.toFixed(1)}%` : "—"}
           deltaPct={stats?.d90_pct ?? null}
           color={color}
         />
+        <KpiCard label="Δ 365d" value={
+          stats?.d365_pct != null ? `${stats.d365_pct.toFixed(1)}%` : "—"
+        } />
         <KpiCard
           label="CAGR 1y"
           value={
@@ -126,13 +144,10 @@ export default function ChannelDetailPage({
           }
           color={color}
         />
+        <KpiCard label="Velocity 7d" value={fmtNum(stats?.velocity_7d)} />
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <KpiCard label="Δ 365d" value={
-          stats?.d365_pct != null ? `${stats.d365_pct.toFixed(1)}%` : "—"
-        } />
-        <KpiCard label="Velocity 7d" value={fmtNum(stats?.velocity_7d)} />
         <KpiCard label="Velocity 28d" value={fmtNum(stats?.velocity_28d)} />
         <KpiCard label="Total views" value={fmtNum(stats?.total_views)} />
       </div>

@@ -8,6 +8,7 @@ export interface Channel {
   followers?: number;
   total_views?: number;
   posts_count?: number;
+  d1_pct?: number;
   d7_pct?: number;
   d30_pct?: number;
   d90_pct?: number;
@@ -28,6 +29,7 @@ export interface ChannelStats {
   followers: number;
   total_views: number;
   posts_count: number;
+  d1_pct: number;
   d7_pct: number;
   d30_pct: number;
   d90_pct: number;
